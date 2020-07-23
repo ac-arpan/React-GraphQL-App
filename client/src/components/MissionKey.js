@@ -2,7 +2,7 @@ import React from 'react'
 
 function MissionKey() {
     return (
-        <div className="my-3">
+        <div className="mb-5">
             <p>
                 <span className="px-3 mr-2 bg-success"></span> Sucess
               
