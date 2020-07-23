@@ -1,5 +1,6 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
+import { ClipLoader } from 'react-spinners'
 import LaunchItem from './LaunchItem'
 import MissionKey from './MissionKey'
 
@@ -23,7 +24,7 @@ const LAUNCHES_QUERY = gql`
 function Launches() {
     const { loading, error, data } = useQuery(LAUNCHES_QUERY)
 
-    if (loading) return <h4 className="text-center">Loading...</h4>
+    if (loading) return <div className="container text-center"><ClipLoader color="blue" size={40}></ClipLoader></div>
 
     if (error) console.log(error)
     return (

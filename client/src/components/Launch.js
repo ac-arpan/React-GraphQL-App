@@ -1,6 +1,7 @@
 import React from 'react'
 import { useQuery, gql } from '@apollo/client'
 import { Link } from 'react-router-dom'
+import { ClipLoader } from 'react-spinners'
 import classNames from 'classnames'
 
 
@@ -32,7 +33,7 @@ function Launch(props) {
 
     const { loading, error, data } = useQuery(LAUNCH_QUERY, { variables: { flight_number } })
 
-    if (loading) return <h4 className="text-center">Loading...</h4>
+    if (loading) return <div className="container text-center"><ClipLoader color="blue" size={40}></ClipLoader></div>
 
     if (error) console.log(error)
 

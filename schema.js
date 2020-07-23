@@ -34,6 +34,27 @@ const LinkType = new GraphQLObjectType({
     })
 })
 
+// Info Type
+const InfoType = new GraphQLObjectType({
+    name: 'Info',
+    fields: () => ({
+        name: { type: GraphQLString },
+        founder: { type: GraphQLString },
+        founded: { type: GraphQLInt },
+        summary: { type: GraphQLString },
+        headquarters: { type: new GraphQLObjectType({
+            name:"HeadQuarters",
+            fields: () => ({
+                address: { type: GraphQLString },
+                city: { type: GraphQLString },
+                state: { type: GraphQLString }
+            })
+        }) }
+    })
+})
+
+
+
 // Root Query
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
@@ -73,6 +94,13 @@ const RootQuery = new GraphQLObjectType({
                             .then(res => res.data)
             }
 
+        },
+        info: {
+            type: InfoType,
+            resolve(parent, args) {
+                return axios.get('https://api.spacexdata.com/v3/info')
+                            .then(res => res.data)
+            }
         }
     }
 })
