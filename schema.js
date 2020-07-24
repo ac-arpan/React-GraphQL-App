@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLList, GraphQLSchema }  = require('graphql')
+const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLBoolean, GraphQLList, GraphQLSchema, GraphQLScalarType }  = require('graphql')
 const axios = require('axios')
 
 // Launch Type
@@ -53,7 +53,22 @@ const InfoType = new GraphQLObjectType({
     })
 })
 
-
+// History Type
+const HistoryType = new GraphQLObjectType({
+    name: 'History',
+    fields: () => ({
+        id: { type: GraphQLInt},
+        title: { type: GraphQLString },
+        event_date_utc: { type: GraphQLString },
+        details: { type: GraphQLString },
+        links: { type: new GraphQLObjectType({
+            name:'LinkHistory',
+            fields: () => ({
+                wikipedia: { type: GraphQLString }
+            })
+        })}
+    })
+})
 
 // Root Query
 const RootQuery = new GraphQLObjectType({
@@ -99,6 +114,13 @@ const RootQuery = new GraphQLObjectType({
             type: InfoType,
             resolve(parent, args) {
                 return axios.get('https://api.spacexdata.com/v3/info')
+                            .then(res => res.data)
+            }
+        },
+        history: {
+            type: new GraphQLList(HistoryType),
+            resolve(parent, args) {
+                return axios.get(`https://api.spacexdata.com/v3/history`)
                             .then(res => res.data)
             }
         }
